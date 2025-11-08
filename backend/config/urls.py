@@ -17,13 +17,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from chat_app.views import ConversationViewSet
+from chat_app.views import (
+    ConversationViewSet, 
+    login_view, 
+    register_view, 
+    logout_view, 
+    current_user_view,
+    get_csrf_token
+)
 
 router = DefaultRouter()
-router.register('conversations', ConversationViewSet)
+router.register('conversations', ConversationViewSet, basename='conversation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/auth/', include('rest_framework.urls')),
+    path('api/auth/csrf/', get_csrf_token, name='get_csrf_token'),
+    path('api/auth/login/', login_view, name='login'),
+    path('api/auth/register/', register_view, name='register'),
+    path('api/auth/logout/', logout_view, name='logout'),
+    path('api/auth/me/', current_user_view, name='current_user'),
+    path('api/auth/', include('rest_framework.urls')),  # For browsable API auth
 ]

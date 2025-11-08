@@ -1,3 +1,4 @@
+# backend/chat_app/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -31,10 +32,10 @@ class Message(models.Model):
     ]
     
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
-    content = models.TextField()
+    content = models.TextField()  # This should NOT be null
     sender = models.CharField(max_length=10, choices=SENDER_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
-    embeddings = models.JSONField(null=True, blank=True)  # For semantic search
+    embeddings = models.JSONField(null=True, blank=True)
     
     class Meta:
         ordering = ['timestamp']

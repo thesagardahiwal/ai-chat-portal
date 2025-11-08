@@ -60,3 +60,51 @@ export interface QueryResponse {
     timestamp: string;
   }>;
 }
+
+// src/types/auth.ts
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  username: string;
+  email: string;
+  password: string;
+  first_name?: string;
+  last_name?: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  user: User;
+  token?: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+}
+
+export interface StreamChunk {
+  type: 'user_message' | 'ai_chunk' | 'ai_message' | 'conversation' | 'complete' | 'error';
+  data: any;
+}
+
+export interface StreamingResponse {
+  conversation?: Conversation;
+  user_message?: Message;
+  ai_message?: Message;
+  chunk?: string;
+  error?: string;
+}
