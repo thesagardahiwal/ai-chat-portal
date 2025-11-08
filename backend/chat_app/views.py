@@ -415,18 +415,14 @@ class ConversationViewSet(viewsets.ModelViewSet):
                         # Update conversation if needed
                         if conversation.messages.count() == 2 and full_response.strip():  # User + AI message
                             try:
-                                title_prompt = [
-                                    {
-                                        "role": "system", 
-                                        "content": f"Generate a very short title (max 5 words) for this conversation starter: '{content}'"
-                                    }
-                                ]
-                                title_response = ai.get_llm_response(title_prompt)
-                                if title_response and title_response.strip():
-                                    conversation.title = title_response.strip('"\'')[:50]
+                                first_user_message = conversation.messages.filter(sender='user').first()
+                                if first_user_message:
+                                    user_content = first_user_message.content.strip()
+                                    conversation.title = " ".join(user_content.split()[:5])  # First 5 words
                                     conversation.save()
                             except Exception as e:
-                                logger.error(f"Error generating title: {e}")
+                                logger.error(f"Error setting conversation title: {e}")
+
                     
                     yield f"data: {json.dumps({'type': 'complete'})}\n\n"
                     

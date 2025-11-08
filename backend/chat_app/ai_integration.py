@@ -29,38 +29,36 @@ class GeminiAIIntegration:
     def get_llm_response(self, messages: List[Dict]) -> str:
         """Get response from Gemini API using the new SDK"""
         try:
-            # Convert messages to the format expected by the new SDK
             contents = []
             system_instruction = None
-            
+
             for msg in messages:
                 if msg["role"] == "system":
                     system_instruction = msg["content"]
-                elif msg["role"] == "user":
+                elif msg["role"] in ["user", "assistant"]:
                     contents.append(types.Part.from_text(text=msg["content"]))
-                elif msg["role"] == "assistant":
-                    contents.append(types.Part.from_text(text=msg["content"]))
-            
-            # Prepare config with system instruction if available
+
+            # If input is a single string instead of messages list
+            if isinstance(messages, str):
+                contents = [types.Part.from_text(text=messages)]
+
             config = None
             if system_instruction:
-                config = types.GenerateContentConfig(
-                    system_instruction=system_instruction
-                )
-            
-            # Generate content using the new SDK
+                config = types.GenerateContentConfig(system_instruction=system_instruction)
+
             response = self.client.models.generate_content(
-                model='gemini-2.0-flash',  # Using a stable model
+                model='gemini-2.0-flash',
                 contents=contents,
                 config=config
             )
-            
+
             return response.text if response.text else "I apologize, but I couldn't generate a response."
-            
+
         except Exception as e:
             logger.error(f"Gemini API error: {e}")
             return "I apologize, but I'm having trouble responding right now."
-    
+
+                
     def get_llm_response_stream(self, messages: List[Dict]) -> Generator[str, None, None]:
         """Stream response from Gemini API"""
         try:

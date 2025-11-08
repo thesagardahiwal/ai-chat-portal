@@ -28,7 +28,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isStreami
                         lineHeight: '1.3',
                     }}
                 >
-                    {isUser ? (<div className='text-balance min-w-40 max-w-max'>
+                    {isUser ? (<div className=''>
                          {message.content}
                     </div>) : (
                         <ReactMarkdown
