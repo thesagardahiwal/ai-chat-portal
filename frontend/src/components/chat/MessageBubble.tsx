@@ -12,7 +12,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isStreami
     const isUser = message.sender === 'user';
 
     return (
-        <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3 px-2 sm:px-4`}>
+        <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3 max-w-5xl px-2 sm:px-4`}>
             <div
                 className={`relative max-w-[85%] md:max-w-[75%] lg:max-w-[65%] rounded-2xl px-4 py-2 shadow-sm
           ${isUser
@@ -22,15 +22,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isStreami
             >
                 {/* Message Content */}
                 <div
-                    className={`w-full break-words whitespace-pre-wrap leading-snug ${isUser ? 'text-white' : 'text-gray-900'
-                        }`}
+                    className={`max-w-full w-full break-words whitespace-pre-wrap leading-snug ${isUser ? 'text-white' : 'text-gray-900'}`}
                     style={{
                         lineHeight: '1.3',
+                        wordBreak: 'break-word', // ensure long words wrap
+                        overflowWrap: 'anywhere', // handle long URLs or unbroken text
+                        wordWrap: 'break-word',
                     }}
                 >
-                    {isUser ? (<div className=''>
-                         {message.content}
-                    </div>) : (
+                    {isUser ? (
+                        <div>{message.content}</div>
+                    ) : (
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                         >
