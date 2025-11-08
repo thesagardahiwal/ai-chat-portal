@@ -33,28 +33,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isStreami
                     </div>) : (
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
-                            components={{
-                                p: ({ node, ...props }) => (
-                                    <p className="my-1" {...props} /> // ↓ tighter paragraph spacing
-                                ),
-                                li: ({ node, ...props }) => (
-                                    <li className="my-0.5 ml-4 list-disc" {...props} />
-                                ),
-                                ul: ({ node, ...props }) => (
-                                    <ul className="my-1" {...props} />
-                                ),
-                                code: ({ node, inline, ...props }) =>
-                                    inline ? (
-                                        <code
-                                            className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded"
-                                            {...props}
-                                        />
-                                    ) : (
-                                        <pre className="bg-gray-100 text-gray-800 p-2 rounded text-sm overflow-x-auto">
-                                            <code {...props} />
-                                        </pre>
-                                    ),
-                            }}
                         >
                             {message.content}
                         </ReactMarkdown>

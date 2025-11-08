@@ -4,11 +4,9 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 load_dotenv(BASE_DIR / ".env")
-DEBUG = os.getenv("DEBUG", "False") == "True"
-SECRET_KEY = os.getenv("SECRET_KEY")
-DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = 'your-secret-key-here'
+DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 LOGGING = {
     'version': 1,
@@ -30,7 +28,6 @@ LOGGING = {
         },
     },
 }
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

@@ -5,6 +5,8 @@ import { apiService } from '../services/api';
 import { Button } from '../components/common/Button';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { EmptyState } from '../components/common/EmptyState';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface IntelligencePageProps {
   conversations: Conversation[];
@@ -300,7 +302,9 @@ export const IntelligencePage: React.FC<IntelligencePageProps> = ({
                       AI Analysis
                     </h3>
                     <div className="text-blue-800 leading-relaxed whitespace-pre-wrap">
-                      {results.answer}
+                        <Markdown remarkPlugins={[remarkGfm]}>
+                            {results.answer}
+                        </Markdown>
                     </div>
                   </div>
 
@@ -359,7 +363,9 @@ export const IntelligencePage: React.FC<IntelligencePageProps> = ({
                               </span>
                             </div>
                             <div className="text-gray-700 text-sm bg-gray-50 rounded p-3">
-                              {excerpt.content}
+                                <Markdown remarkPlugins={[remarkGfm]}>
+                                    {excerpt.content}
+                                </Markdown>
                             </div>
                             <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
                               <span>From: {excerpt.sender}</span>
